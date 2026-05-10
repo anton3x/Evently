@@ -1,4 +1,7 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
+RUN apt-get update \
+    && apt-get install -y krb5-user \
+    && rm -rf /var/lib/apt/lists/*
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
@@ -7,10 +10,16 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Evently.Api/Evently.Api.csproj", "Evently.Api/"]
-RUN dotnet restore "Evently.Api/Evently.Api.csproj"
+COPY ["Directory.Build.props", "Directory.Packages.props", "./"]
+COPY ["src/API/Evently.Api/Evently.Api.csproj", "src/API/Evently.Api/"]
+COPY ["src/Modules/Evently.Modules.Events.Api/Evently.Modules.Events.Api.csproj", "src/Modules/Evently.Modules.Events.Api/"]
+COPY ["src/Modules/Evently.Modules.Events.Infrastructure/Evently.Modules.Events.Infrastructure.csproj", "src/Modules/Evently.Modules.Events.Infrastructure/"]
+COPY ["src/Modules/Evently.Modules.Events.Application/Evently.Modules.Events.Application.csproj", "src/Modules/Evently.Modules.Events.Application/"]
+COPY ["src/Modules/Evently.Modules.Events.Domain/Evently.Modules.Events.Domain.csproj", "src/Modules/Evently.Modules.Events.Domain/"]
+COPY ["src/Modules/Evently.Modules.Events.Presentation/Evently.Modules.Events.Presentation.csproj", "src/Modules/Evently.Modules.Events.Presentation/"]
+RUN dotnet restore "./src/API/Evently.Api/Evently.Api.csproj"
 COPY . .
-WORKDIR "/src/Evently.Api"
+WORKDIR "/src/src/API/Evently.Api"
 RUN dotnet build "./Evently.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish

@@ -14,8 +14,10 @@ if (app.Environment.IsDevelopment())
     app.ApplyMigrations();
 }
 
+app.MapGet("/", () => app.Environment.IsDevelopment() ? "Development" : "Production");
+
 EventsModule.MapEndpoints(app);
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 await app.RunAsync();

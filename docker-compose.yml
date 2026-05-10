@@ -1,13 +1,13 @@
 services:
   evently.api:
-    image: ${DOCKER_REGISTRY-}eventlyapi
+    image: eventlyapi
     container_name: Evently.Api
     build:
       context: .
       dockerfile: src/API/Evently.Api/Dockerfile
     ports:
-      - 5000:8080
-      - 5001:8081
+      - "5000:8080"
+      - "5001:8081"
 
   evently.database:
     image: postgres:latest
@@ -19,4 +19,4 @@ services:
     volumes:
       - ./.containers/db:/var/lib/postresql/data
     ports:
-      - 5432:5432
+      - "5432:5432"
