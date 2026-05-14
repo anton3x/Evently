@@ -11,7 +11,7 @@ internal static class MigrationExtensions
 
         ApplyMigration<EventsDbContext>(scope);
     }
-
+    
     private static void ApplyMigration<TDbContext>(IServiceScope scope) 
         where TDbContext: DbContext
     {
