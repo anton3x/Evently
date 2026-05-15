@@ -1,0 +1,28 @@
+{
+  "$schema": "https://alirezanet.github.io/Husky.Net/schema.json",
+  "tasks": [
+    {
+      "name": "commit-message-linter",
+      "command": "dotnet",
+      "group": "commit-msg",
+      "args": [
+        "husky",
+        "exec",
+        ".husky/csx/commit-lint.csx",
+        "--args",
+        "${args}"
+      ]
+    },
+    {
+      "name": "Welcome",
+      "output": "always",
+      "command": "bash",
+      "group": "pre-commit",
+      "args": ["-c", "echo Nice work! 🥂"],
+      "windows": {
+        "command": "cmd",
+        "args": ["/c", "echo Nice work! 🥂"]
+      }
+    }
+  ]
+}
