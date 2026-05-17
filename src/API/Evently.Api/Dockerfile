@@ -9,9 +9,15 @@ EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
+ENV HUSKY=0
 WORKDIR /src
 COPY ["Directory.Build.props", "Directory.Packages.props", "./"]
 COPY ["src/API/Evently.Api/Evently.Api.csproj", "src/API/Evently.Api/"]
+
+COPY ["src/Common/Evently.Common.Application/Evently.Common.Application.csproj", "src/Common/Evently.Common.Application/"]
+COPY ["src/Common/Evently.Common.Domain/Evently.Common.Domain.csproj", "src/Common/Evently.Common.Domain/"]
+COPY ["src/Common/Evently.Common.Infrastructure/Evently.Common.Infrastructure.csproj", "src/Common/Evently.Common.Infrastructure/"]
+
 COPY ["src/Modules/Events/Evently.Modules.Events.Infrastructure/Evently.Modules.Events.Infrastructure.csproj", "src/Modules/Events/Evently.Modules.Events.Infrastructure/"]
 COPY ["src/Modules/Events/Evently.Modules.Events.Application/Evently.Modules.Events.Application.csproj", "src/Modules/Events/Evently.Modules.Events.Application/"]
 COPY ["src/Modules/Events/Evently.Modules.Events.Domain/Evently.Modules.Events.Domain.csproj", "src/Modules/Events/Evently.Modules.Events.Domain/"]
