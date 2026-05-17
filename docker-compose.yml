@@ -20,3 +20,13 @@ services:
       - ./.containers/db:/var/lib/postresql/data
     ports:
       - "5432:5432"
+
+  evently.seq:
+    image: datalust/seq:latest
+    container_name: Evently.Seq
+    environment:
+      - ACCEPT_EULA=Y
+      - SEQ_FIRSTRUN_ADMINPASSWORD=GoodPassword67
+    ports:
+      - "5431:5431"
+      - "8081:80"
