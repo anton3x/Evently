@@ -6,6 +6,7 @@ using Evently.Common.Domain;
 using Evently.Modules.Events.Domain.Events;
 
 namespace Evently.Modules.Events.Application.Events;
+
 public sealed record SearchEventsQuery(
     Guid? CategoryId,
     DateTime? StartDate,
@@ -93,6 +94,7 @@ internal sealed class SearchEventsQueryHandler(IDbConnectionFactory dbConnection
         int Take,
         int Skip);
 }
+
 public sealed record SearchEventsResponse(
     int Page,
     int PageSize,

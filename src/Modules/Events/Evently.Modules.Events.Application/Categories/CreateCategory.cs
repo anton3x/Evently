@@ -22,6 +22,7 @@ internal sealed class CreateCategoryCommandHandler(ICategoryRepository categoryR
         return category.Id;
     }
 }
+
 internal sealed class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCommand>
 {
     public CreateCategoryCommandValidator()
@@ -29,4 +30,3 @@ internal sealed class CreateCategoryCommandValidator : AbstractValidator<CreateC
         RuleFor(c => c.Name).NotEmpty();
     }
 }
-

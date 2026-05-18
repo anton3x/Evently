@@ -8,6 +8,7 @@ using FluentValidation;
 namespace Evently.Modules.Events.Application.Events;
 
 public sealed record CancelEventCommand(Guid EventId) : ICommand;
+
 internal sealed class CancelEventCommandHandler(
     IDateTimeProvider dateTimeProvider,
     IEventRepository eventRepository,
@@ -43,5 +44,3 @@ internal sealed class CancelEventCommandValidator : AbstractValidator<CancelEven
         RuleFor(c => c.EventId).NotEmpty();
     }
 }
-
-

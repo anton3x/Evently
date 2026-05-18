@@ -6,5 +6,5 @@ public sealed class CategoryNameChangedDomainEvent(Guid categoryId, string name)
 {
     public Guid CategoryId { get; init; } = categoryId;
 
-    public string Name { get; init;  } = name;
+    public string Name { get; init; } = name;
 }

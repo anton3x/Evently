@@ -46,4 +46,3 @@ internal sealed class RescheduleEventCommandValidator : AbstractValidator<Resche
         RuleFor(c => c.EndsAtUtc).Must((cmd, endsAt) => endsAt > cmd.StartsAtUtc).When(c => c.EndsAtUtc.HasValue);
     }
 }
-

@@ -5,7 +5,6 @@ using Evently.Modules.Events.Application.Abstractions.Data;
 using Evently.Modules.Events.Domain.Categories;
 using Evently.Modules.Events.Domain.Events;
 using FluentValidation;
-using MediatR;
 
 namespace Evently.Modules.Events.Application.Events;
 
@@ -16,7 +15,6 @@ public sealed record CreateEventCommand(
     string Location,
     DateTime StartsAtUtc,
     DateTime? EndsAtUtc) : ICommand<Guid>;
-
 
 internal sealed class CreateEventCommandHandler(
     IDateTimeProvider dateTimeProvider,

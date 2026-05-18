@@ -7,13 +7,13 @@ namespace Evently.Modules.Events.Application.Events;
 
 public sealed record GetEventQuery(Guid EventId) : IRequest<EventResponse?>;
 
-internal sealed class GetEventQueryHandler(IDbConnectionFactory dbConnectionFactory): IRequestHandler<GetEventQuery, EventResponse?>
+internal sealed class GetEventQueryHandler(IDbConnectionFactory dbConnectionFactory) : IRequestHandler<GetEventQuery, EventResponse?>
 {
     public async Task<EventResponse?> Handle(GetEventQuery request, CancellationToken cancellationToken)
     {
         await using DbConnection connection = await dbConnectionFactory.OpenConnectionAsync();
 
-        const string sql = 
+        const string sql =
             $"""
                  SELECT 
                      id AS {nameof(EventResponse.Id)},

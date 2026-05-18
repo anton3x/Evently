@@ -47,5 +47,8 @@ internal sealed class RequestLoggingPipelineBehavior<TRequest, TResponse>(
         }
     }
 
-    private static string GetModuleName(string requestName) => requestName.Split('.')[2];
+    private static string GetModuleName(string requestName)
+    {
+        return requestName.Split('.')[2];
+    }
 }
