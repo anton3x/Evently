@@ -26,11 +26,20 @@ public static class InfrastructureConfiguration
 
         services.TryAddSingleton<IDateTimeProvider, DateTimeProvider>();
 
-        IConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect(redisConnectionString);
-        services.TryAddSingleton(connectionMultiplexer);
+        try
+        {
+            IConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect(redisConnectionString);
+            services.TryAddSingleton(connectionMultiplexer);
 
-        // Distributed Caching using redis instance
-        services.AddStackExchangeRedisCache(options => options.ConnectionMultiplexerFactory = () => Task.FromResult(connectionMultiplexer));
+            // Distributed Caching using redis instance
+            services.AddStackExchangeRedisCache(options => options.ConnectionMultiplexerFactory = () => Task.FromResult(connectionMultiplexer));
+        }
+        catch
+        {
+            // On migrations, cache container is not running, so it would throw here and prevent it from doing the migration
+            // So we just add memory cache instead
+            services.AddDistributedMemoryCache();
+        }
         
         //Note: In the future we should migrate to hybricache aproach using fusion cache
         services.TryAddSingleton<ICacheService, CacheService>();

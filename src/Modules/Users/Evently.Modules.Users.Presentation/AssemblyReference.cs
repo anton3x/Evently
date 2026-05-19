@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Evently.Modules.Events.Application;
+namespace Evently.Modules.Users.Presentation;
 
 public static class AssemblyReference
 {

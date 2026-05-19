@@ -3,8 +3,8 @@ using Evently.Api.Middleware;
 using Evently.Common.Application;
 using Evently.Common.Infrastructure;
 using Evently.Common.Presentation.Endpoints;
-using Evently.Modules.Events.Application;
 using Evently.Modules.Events.Infrastructure;
+using Evently.Modules.Users.Infrastructure;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Serilog;
@@ -18,18 +18,25 @@ builder.Services.AddProblemDetails();
 
 builder.Services.AddOpenApi();
 
-string databaseConnectionString = builder.Configuration.GetConnectionString("Database") ?? throw new ArgumentException("Database connection string is required");
-string redisConnectionString = builder.Configuration.GetConnectionString("Cache") ?? throw new ArgumentException("Cache connection string is required");
+string databaseConnectionString = builder.Configuration.GetConnectionString("Database") 
+                                  ?? throw new ArgumentException("Database connection string is required");
 
-builder.Services.AddApplication([AssemblyReference.Assembly]);
+string redisConnectionString = builder.Configuration.GetConnectionString("Cache") 
+                               ?? throw new ArgumentException("Cache connection string is required");
+
+builder.Services.AddApplication([
+    Evently.Modules.Events.Presentation.AssemblyReference.Assembly, 
+    Evently.Modules.Users.Presentation.AssemblyReference.Assembly
+]);
 builder.Services.AddInfrastructure(databaseConnectionString, redisConnectionString);
-builder.Configuration.AddModuleConfiguration(["events"]);
+builder.Configuration.AddModuleConfiguration(["events", "users"]);
 
 builder.Services.AddHealthChecks()
     .AddNpgSql(databaseConnectionString)
     .AddRedis(redisConnectionString);
 
 builder.Services.AddEventsModule(builder.Configuration);
+builder.Services.AddUsersModule(builder.Configuration);
 
 WebApplication app = builder.Build();
 
