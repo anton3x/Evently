@@ -24,6 +24,10 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\Modules\Events\Evently.Modules.Events.Infrastructure\Evently.Modules.Events.Infrastructure.csproj"/>
+        <ProjectReference Include="..\..\Modules\Ticketing\Evently.Modules.Ticketing.Application\Evently.Modules.Ticketing.Application.csproj" />
+        <ProjectReference Include="..\..\Modules\Ticketing\Evently.Modules.Ticketing.Domain\Evently.Modules.Ticketing.Domain.csproj" />
+        <ProjectReference Include="..\..\Modules\Ticketing\Evently.Modules.Ticketing.Infrastructure\Evently.Modules.Ticketing.Infrastructure.csproj" />
+        <ProjectReference Include="..\..\Modules\Ticketing\Evently.Modules.Ticketing.Presentation\Evently.Modules.Ticketing.Presentation.csproj" />
         <ProjectReference Include="..\..\Modules\Users\Evently.Modules.Users.Infrastructure\Evently.Modules.Users.Infrastructure.csproj"/>
     </ItemGroup>
     <Target Name="Husky" AfterTargets="Restore" Condition="'$(HUSKY)' != 0" Inputs="../../../.config/dotnet-tools.json" Outputs="../../../.husky/_/install.stamp">

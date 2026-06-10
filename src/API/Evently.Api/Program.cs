@@ -4,6 +4,7 @@ using Evently.Common.Application;
 using Evently.Common.Infrastructure;
 using Evently.Common.Presentation.Endpoints;
 using Evently.Modules.Events.Infrastructure;
+using Evently.Modules.Ticketing.Infrastructure;
 using Evently.Modules.Users.Infrastructure;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -25,11 +26,12 @@ string redisConnectionString = builder.Configuration.GetConnectionString("Cache"
                                ?? throw new ArgumentException("Cache connection string is required");
 
 builder.Services.AddApplication([
-    Evently.Modules.Events.Presentation.AssemblyReference.Assembly, 
-    Evently.Modules.Users.Presentation.AssemblyReference.Assembly
+    Evently.Modules.Events.Application.AssemblyReference.Assembly, 
+    Evently.Modules.Users.Application.AssemblyReference.Assembly, 
+    Evently.Modules.Ticketing.Application.AssemblyReference.Assembly
 ]);
 builder.Services.AddInfrastructure(databaseConnectionString, redisConnectionString);
-builder.Configuration.AddModuleConfiguration(["events", "users"]);
+builder.Configuration.AddModuleConfiguration(["events", "users", "ticketing"]);
 
 builder.Services.AddHealthChecks()
     .AddNpgSql(databaseConnectionString)
@@ -37,6 +39,7 @@ builder.Services.AddHealthChecks()
 
 builder.Services.AddEventsModule(builder.Configuration);
 builder.Services.AddUsersModule(builder.Configuration);
+builder.Services.AddTicketingModule(builder.Configuration);
 
 WebApplication app = builder.Build();
 
