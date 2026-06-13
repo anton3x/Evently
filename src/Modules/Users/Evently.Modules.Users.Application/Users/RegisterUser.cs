@@ -1,5 +1,6 @@
 using Evently.Common.Application.Messaging;
 using Evently.Common.Domain;
+using Evently.Modules.Ticketing.PublicApi;
 using Evently.Modules.Users.Application.Abstractions.Data;
 using Evently.Modules.Users.Domain.Users;
 using FluentValidation;
@@ -8,7 +9,10 @@ namespace Evently.Modules.Users.Application.Users;
 
 public sealed record RegisterUserCommand(string Email, string FirstName, string LastName) : ICommand<Guid>;
 
-internal sealed class RegisterUserCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork) : ICommandHandler<RegisterUserCommand, Guid>
+internal sealed class RegisterUserCommandHandler(
+    IUserRepository userRepository,
+    IUnitOfWork unitOfWork
+    ) : ICommandHandler<RegisterUserCommand, Guid>
 {
     public async Task<Result<Guid>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
