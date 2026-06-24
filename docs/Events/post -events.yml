@@ -12,7 +12,12 @@ http:
     type: json
     data: |-
       {
-        "price": ""
+        "categoryId": "bdc0e182-f109-4ca9-96ee-3bc4a39e8c3a",
+        "title": "tititle",
+        "price": "0.10",
+        "description": "descript",
+        "location": "localizacione",
+        "startsAtUtc": "2026-06-10T19:00:00Z"
       }
   auth: inherit
 
