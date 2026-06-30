@@ -36,9 +36,17 @@ builder.Services.AddInfrastructure(
     redisConnectionString);
 builder.Configuration.AddModuleConfiguration(["events", "users", "ticketing"]);
 
+string keycloakHealthUrl = builder.Configuration.GetSection("KeyCloak:HealthUrl").Value;
+
+if (string.IsNullOrEmpty(keycloakHealthUrl))
+{
+    throw new ArgumentException("KeyCloak Health Url is required");
+}
+
 builder.Services.AddHealthChecks()
     .AddNpgSql(databaseConnectionString)
-    .AddRedis(redisConnectionString);
+    .AddRedis(redisConnectionString)
+    .AddUrlGroup(new Uri(keycloakHealthUrl), HttpMethod.Get, "keycloak");
 
 builder.Services.AddEventsModule(builder.Configuration);
 builder.Services.AddUsersModule(builder.Configuration);
@@ -67,5 +75,9 @@ app.UseHttpsRedirection();
 app.UseSerilogRequestLogging();
 
 app.UseExceptionHandler();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 await app.RunAsync();
