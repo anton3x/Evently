@@ -20,6 +20,21 @@ services:
       - ./.containers/db:/var/lib/postresql/data
     ports:
       - "5432:5432"
+  
+  evently.idendity:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: Evently.Identity
+    command: start-dev --import-realm
+    environment:
+      - KC_HEALTH_ENABLED=true
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+    volumes:
+      - ./.containers/identity:/opt/keycloak/data
+      - ./.files:/opt/keycloak/data/import
+    ports:
+      - "18080:8080"
+      - "9000:9000" #on newer version of keycloak, health endpoint is expose in port 9000 by default
 
   evently.seq:
     image: datalust/seq:latest
